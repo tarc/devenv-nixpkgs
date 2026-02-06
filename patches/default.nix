@@ -1,24 +1,27 @@
 # Patch collection for devenv-nixpkgs
 #
-# This file organizes patches into two categories:
-# - upstream: Patches fetched from open nixpkgs PRs (self-tracking)
-# - local: Patches not yet submitted upstream
+# Two categories:
 #
-# When an upstream PR is merged, the fetchpatch will fail (hash mismatch),
-# signaling that the patch should be removed.
+# - upstream: Patches from nixpkgs PRs or unreleased fixes.
+#   Download with:
+#     curl -L https://github.com/NixOS/nixpkgs/pull/<number>.patch -o patches/<name>.patch
+#   Avoid using fetchpatch for unmerged PRs — force-pushes change the content.
+#
+# - local: Patches not yet submitted upstream.
+#
+# fetchpatch is fine for merged commits whose content is immutable, e.g.
+# unreleased upstream fixes not yet in nixpkgs-unstable:
+#
+#   (fetchpatch {
+#     name = "fix-python-darwin.patch";
+#     url = "https://github.com/NixOS/nixpkgs/commit/abc123.patch";
+#     sha256 = "sha256-AAAA...";
+#   })
 
 { fetchpatch }:
 
 {
-  # Patches with open upstream PRs
-  # These are self-tracking: when the PR is merged, the hash changes and build fails
-  #
-  # Example:
-  # (fetchpatch {
-  #   name = "fix-python-darwin.patch";
-  #   url = "https://github.com/NixOS/nixpkgs/pull/12345.patch";
-  #   sha256 = "sha256-AAAA...";
-  # })
+  # Patches from nixpkgs PRs or unreleased fixes
   upstream = [
     # https://patch-diff.githubusercontent.com/raw/NixOS/nixpkgs/pull/486335
     ./nixpkgs-486335-fix-gdb-on-clang.patch

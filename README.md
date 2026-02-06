@@ -22,25 +22,35 @@ inputs:
 
 Patches are defined in [`patches/default.nix`](./patches/default.nix) with two categories:
 
-- **upstream**: Patches fetched from open nixpkgs PRs via `fetchpatch` (self-tracking)
+- **upstream**: Patches from nixpkgs PRs or unreleased fixes
 - **local**: Patches not yet submitted upstream
 
 ### Adding an Upstream Patch
 
-For patches with an open nixpkgs PR:
+Download the PR patch and commit it as a local file:
+
+```bash
+curl -L https://github.com/NixOS/nixpkgs/pull/12345.patch -o patches/fix-python-darwin.patch
+```
+
+Then add it to `patches/default.nix`:
 
 ```nix
-# patches/default.nix
 upstream = [
-  (fetchpatch {
-    name = "fix-python-darwin.patch";
-    url = "https://github.com/NixOS/nixpkgs/pull/12345.patch";
-    sha256 = "sha256-AAAA...";
-  })
+  ./fix-python-darwin.patch
 ];
 ```
 
-When the PR is merged, the hash changes and the build fails, signaling removal.
+> **Note:** Avoid using `fetchpatch` for unmerged PRs — a force-push to the PR branch changes the content at that URL.
+> `fetchpatch` is fine for merged commits whose content is immutable (e.g. unreleased fixes not yet in nixpkgs-unstable):
+>
+> ```nix
+> (fetchpatch {
+>   name = "fix-python-darwin.patch";
+>   url = "https://github.com/NixOS/nixpkgs/commit/abc123.patch";
+>   sha256 = "sha256-AAAA...";
+> })
+> ```
 
 ### Adding a Local Patch
 
