@@ -18,11 +18,21 @@
 #     sha256 = "sha256-AAAA...";
 #   })
 
-{ fetchpatch }:
+{
+  fetchpatch,
+  lib,
+  stdenv,
+}:
+
+let
+  inherit (stdenv) isDarwin;
+in
 
 {
   # Patches from nixpkgs PRs or unreleased fixes
   upstream = [
+  ]
+  ++ lib.optionals isDarwin [
     # https://patch-diff.githubusercontent.com/raw/NixOS/nixpkgs/pull/486335
     ./nixpkgs-486335-fix-gdb-on-clang.patch
   ];

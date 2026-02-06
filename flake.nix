@@ -29,7 +29,7 @@
       mkPatchedPkgs = system:
         let
           pkgs = import nixpkgs-src { inherit system; };
-          patchDefs = import ./patches { inherit (pkgs) fetchpatch; };
+          patchDefs = import ./patches { inherit (pkgs) fetchpatch lib stdenv; };
           allPatches = patchDefs.upstream ++ patchDefs.local;
           patchedSrc =
             if allPatches == [] then
