@@ -20,6 +20,8 @@
   #   sha256 = "sha256-AAAA...";
   # })
   upstream = [
+    # https://patch-diff.githubusercontent.com/raw/NixOS/nixpkgs/pull/486335
+    ./nixpkgs-486335-fix-gdb-on-clang.patch
   ];
 
   # Local patches not yet submitted upstream
