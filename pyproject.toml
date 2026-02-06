@@ -7,7 +7,6 @@ license = { text = "MIT" }
 requires-python = ">=3.8"
 dependencies = [
   "click>=8.0.0",
-  "GitPython>=3.1.0",
   "PyGithub>=1.55.0",
   "rich>=13.0.0",
 ]
@@ -21,7 +20,6 @@ dev = [
 ]
 
 [project.scripts]
-patcher = "lib.patcher:main"
 test-summary = "lib.test_summary:main"
 
 [tool.black]
