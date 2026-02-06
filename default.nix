@@ -22,7 +22,7 @@ let
   # Bootstrap pkgs for fetchpatch and applyPatches
   bootstrapPkgs = import nixpkgs-src { inherit system; };
 
-  patchDefs = import ./patches { inherit (bootstrapPkgs) fetchpatch; };
+  patchDefs = bootstrapPkgs.callPackage ./patches { };
   allPatches = patchDefs.upstream ++ patchDefs.local;
 
   patchedSrc =

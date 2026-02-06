@@ -35,7 +35,7 @@
         system:
         let
           pkgs = import nixpkgs-src { inherit system; };
-          patchDefs = import ./patches { inherit (pkgs) fetchpatch lib stdenv; };
+          patchDefs = pkgs.callPackage ./patches { };
           allPatches = patchDefs.upstream ++ patchDefs.local;
           patchedSrc =
             if allPatches == [ ] then
