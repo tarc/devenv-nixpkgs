@@ -28,7 +28,7 @@ let
     if allPatches == []
     then nixpkgs-src
     else bootstrapPkgs.applyPatches {
-      name = "nixpkgs-patched";
+      name = "devenv-nixpkgs-patched";
       src = nixpkgs-src;
       patches = allPatches;
     };

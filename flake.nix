@@ -36,7 +36,7 @@
               nixpkgs-src
             else
               pkgs.applyPatches {
-                name = "nixpkgs-patched";
+                name = "devenv-nixpkgs-patched";
                 src = nixpkgs-src;
                 patches = allPatches;
               };
