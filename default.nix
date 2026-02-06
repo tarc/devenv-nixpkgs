@@ -3,10 +3,11 @@
 #
 # Reads nixpkgs revision from flake.lock and applies patches.
 
-{ system ? builtins.currentSystem
-, config ? {}
-, overlays ? []
-, ...
+{
+  system ? builtins.currentSystem,
+  config ? { },
+  overlays ? [ ],
+  ...
 }@args:
 let
   lock = builtins.fromJSON (builtins.readFile ./flake.lock);
@@ -25,13 +26,14 @@ let
   allPatches = patchDefs.upstream ++ patchDefs.local;
 
   patchedSrc =
-    if allPatches == []
-    then nixpkgs-src
-    else bootstrapPkgs.applyPatches {
-      name = "devenv-nixpkgs-patched";
-      src = nixpkgs-src;
-      patches = allPatches;
-    };
+    if allPatches == [ ] then
+      nixpkgs-src
+    else
+      bootstrapPkgs.applyPatches {
+        name = "devenv-nixpkgs-patched";
+        src = nixpkgs-src;
+        patches = allPatches;
+      };
 
   defaultConfig = {
     allowUnfree = true;
@@ -39,7 +41,10 @@ let
     cudaSupport = true;
   };
 in
-import patchedSrc (args // {
-  overlays = (import ./overlays) ++ overlays;
-  config = defaultConfig // config;
-})
+import patchedSrc (
+  args
+  // {
+    overlays = (import ./overlays) ++ overlays;
+    config = defaultConfig // config;
+  }
+)

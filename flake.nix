@@ -8,7 +8,8 @@
     };
   };
 
-  outputs = { self, nixpkgs-src }:
+  outputs =
+    { self, nixpkgs-src }:
     let
       systems = [
         "x86_64-linux"
@@ -17,22 +18,27 @@
         "aarch64-darwin"
       ];
 
-      forAllSystems = f: builtins.listToAttrs (map (system: {
-        name = system;
-        value = f system;
-      }) systems);
+      forAllSystems =
+        f:
+        builtins.listToAttrs (
+          map (system: {
+            name = system;
+            value = f system;
+          }) systems
+        );
 
       # Lib from unpatched source (no build required for evaluation)
       lib = import (nixpkgs-src + "/lib");
 
       # Create patched package set for a given system
-      mkPatchedPkgs = system:
+      mkPatchedPkgs =
+        system:
         let
           pkgs = import nixpkgs-src { inherit system; };
           patchDefs = import ./patches { inherit (pkgs) fetchpatch lib stdenv; };
           allPatches = patchDefs.upstream ++ patchDefs.local;
           patchedSrc =
-            if allPatches == [] then
+            if allPatches == [ ] then
               nixpkgs-src
             else
               pkgs.applyPatches {
@@ -41,15 +47,15 @@
                 patches = allPatches;
               };
         in
-          import patchedSrc {
-            inherit system;
-            overlays = import ./overlays;
-            config = {
-              allowUnfree = true;
-              allowUnsupportedSystem = true;
-              cudaSupport = true;
-            };
+        import patchedSrc {
+          inherit system;
+          overlays = import ./overlays;
+          config = {
+            allowUnfree = true;
+            allowUnsupportedSystem = true;
+            cudaSupport = true;
           };
+        };
     in
     {
       inherit lib;

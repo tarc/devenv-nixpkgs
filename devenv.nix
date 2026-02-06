@@ -1,10 +1,18 @@
-{ pkgs, lib, config, inputs, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}:
 
 {
   languages.python = {
     enable = true;
-    venv.enable= true;
+    venv.enable = true;
     uv.enable = true;
     uv.sync.enable = true;
   };
+
+  git-hooks.hooks.nixfmt.enable = true;
 }
