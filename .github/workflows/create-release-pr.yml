@@ -71,10 +71,15 @@ jobs:
             git push origin main:rolling
           fi
 
-      - name: Create release PR
-        uses: peter-evans/create-pull-request@v7
-        with:
-          branch: main
-          base: rolling
-          title: "Release nixpkgs ${{ steps.nixpkgs.outputs.short }}"
-          body: ${{ steps.summary.outputs.body }}
+      - name: Create or update release PR
+        run: |
+          TITLE="Release nixpkgs ${{ steps.nixpkgs.outputs.short }}"
+          PR_URL=$(gh pr list --base rolling --head main --json url --jq '.[0].url')
+          if [ -n "$PR_URL" ]; then
+            gh pr edit "$PR_URL" --title "$TITLE" --body "$BODY"
+          else
+            gh pr create --base rolling --head main --title "$TITLE" --body "$BODY"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BODY: ${{ steps.summary.outputs.body }}
