@@ -238,8 +238,11 @@ class TestResultsUpdater:
 
         self.console.print("✅ Updated README.md with new test results")
 
-    def run(self, run_id: str, run_url: Optional[str] = None) -> None:
-        """Execute the complete test results update workflow."""
+    def run(self, run_id: str, run_url: Optional[str] = None) -> str:
+        """Execute the complete test results update workflow.
+
+        Returns the generated test results content.
+        """
         try:
             self.console.print(
                 Panel.fit("🚀 Starting Test Results Update", style="bold blue")
@@ -296,6 +299,8 @@ class TestResultsUpdater:
                 Panel.fit("✅ Test results update completed successfully!", style="bold green")
             )
 
+            return test_results_content
+
         except TestResultsError as e:
             self.console.print(Panel.fit(f"❌ Update failed: {e}", style="bold red"))
             sys.exit(1)
@@ -334,6 +339,11 @@ class TestResultsUpdater:
     help="Path to test results template",
     show_default=True,
 )
+@click.option(
+    "--output-path",
+    type=click.Path(path_type=Path),
+    help="Write generated test results content to this file",
+)
 @click.option("-v", "--verbose", is_flag=True, help="Enable verbose logging")
 def main(
     run_id: str,
@@ -341,6 +351,7 @@ def main(
     repo: str,
     readme_path: Path,
     template_path: Path,
+    output_path: Optional[Path],
     verbose: bool,
 ) -> None:
     """Update README.md with test results from a GitHub Actions workflow run."""
@@ -375,7 +386,11 @@ def main(
         console=console,
     )
 
-    updater.run(run_id, run_url)
+    content = updater.run(run_id, run_url)
+
+    if output_path:
+        output_path.write_text(content)
+        console.print(f"✅ Wrote test results to {output_path}")
 
 
 if __name__ == "__main__":

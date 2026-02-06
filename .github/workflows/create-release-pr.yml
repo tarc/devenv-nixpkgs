@@ -13,7 +13,7 @@ permissions:
 jobs:
   create-pr:
     runs-on: [self-hosted, Linux]
-    if: github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch'
+    if: github.event.workflow_run.head_branch == 'main' || github.event_name == 'workflow_dispatch'
     steps:
       - uses: actions/checkout@v5
         with:
@@ -22,11 +22,45 @@ jobs:
       - name: Install Nix
         uses: cachix/install-nix-action@v31
 
+      - name: Install devenv
+        run: nix profile install github:cachix/devenv/latest
+
       - name: Get nixpkgs revision
         id: nixpkgs
         run: |
           SHORT=$(nix flake metadata --json | jq -r '.locks.nodes["nixpkgs-src"].locked.rev' | cut -c1-7)
           echo "short=$SHORT" >> "$GITHUB_OUTPUT"
+
+      - name: Generate test summary
+        shell: devenv shell bash -- -e {0}
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            RUN_ID=$(gh run list --workflow "Update and test" --limit 1 --json databaseId --jq '.[0].databaseId')
+            RUN_URL="https://github.com/${{ github.repository }}/actions/runs/$RUN_ID"
+          else
+            RUN_ID="${{ github.event.workflow_run.id }}"
+            RUN_URL="${{ github.event.workflow_run.html_url }}"
+          fi
+
+          test-summary --run-id "$RUN_ID" --run-url "$RUN_URL" --repo "${{ github.repository }}" --output-path test-summary.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Read test summary
+        id: summary
+        run: |
+          {
+            echo 'body<<SUMMARY_EOF'
+            echo "Promotes main to rolling with nixpkgs ${{ steps.nixpkgs.outputs.short }}."
+            echo ""
+            echo "## Test Results"
+            echo ""
+            cat test-summary.md
+            echo ""
+            echo "---"
+            echo "Auto-generated release PR."
+            echo 'SUMMARY_EOF'
+          } >> "$GITHUB_OUTPUT"
 
       - name: Ensure rolling branch exists
         run: |
@@ -40,8 +74,4 @@ jobs:
           branch: main
           base: rolling
           title: "Release nixpkgs ${{ steps.nixpkgs.outputs.short }}"
-          body: |
-            Promotes main to rolling with nixpkgs ${{ steps.nixpkgs.outputs.short }}.
-
-            ---
-            Auto-generated after successful test run.
+          body: ${{ steps.summary.outputs.body }}

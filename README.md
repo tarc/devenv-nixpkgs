@@ -158,4 +158,5 @@ gh workflow run "Update and test"
 
 ### Release Process
 
-After tests pass, a PR is automatically created to promote `main` → `rolling`. Merge the PR to release.
+After tests complete, a PR is automatically created to promote `main` → `rolling` with the test results summary.
+Merge the PR to release.
