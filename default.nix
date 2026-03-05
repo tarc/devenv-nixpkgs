@@ -4,7 +4,8 @@
 # Reads nixpkgs revision from flake.lock and applies patches.
 
 {
-  system ? builtins.currentSystem,
+  localSystem ? { system = args.system or builtins.currentSystem; },
+  system ? localSystem.system,
   config ? { },
   overlays ? [ ],
   ...
