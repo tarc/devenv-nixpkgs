@@ -4,7 +4,9 @@
 # Reads nixpkgs revision from flake.lock and applies patches.
 
 {
-  localSystem ? { system = args.system or builtins.currentSystem; },
+  localSystem ? {
+    system = args.system or builtins.currentSystem;
+  },
   system ? localSystem.system,
   config ? { },
   overlays ? [ ],
@@ -38,7 +40,6 @@ let
 
   defaultConfig = {
     allowUnfree = true;
-    allowUnsupportedSystem = true;
     cudaSupport = true;
   };
 in
