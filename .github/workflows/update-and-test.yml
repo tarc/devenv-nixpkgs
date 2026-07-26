@@ -19,7 +19,7 @@ permissions:
 
 jobs:
   update:
-    runs-on: [Linux]
+    runs-on: [ubuntu-latest]
     outputs:
       nixpkgs-rev: ${{ steps.nixpkgs.outputs.short }}
       changes_detected: ${{ steps.commit.outputs.changes_detected }}
