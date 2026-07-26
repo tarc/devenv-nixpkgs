@@ -22,11 +22,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: [self-hosted, linux, ARM64]
+          - os: [linux, ARM64]
             system: aarch64-linux
-          - os: [self-hosted, linux, X64]
+          - os: [linux, X64]
             system: x86_64-linux
-          - os: [self-hosted, macOS, ARM64]
+          - os: [macOS, ARM64]
             system: aarch64-darwin
     uses: cachix/devenv/.github/workflows/test.yml@main
     with:
@@ -41,11 +41,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: [self-hosted, linux, ARM64]
+          - os: [linux, ARM64]
             system: aarch64-linux
-          - os: [self-hosted, linux, X64]
+          - os: [linux, X64]
             system: x86_64-linux
-          - os: [self-hosted, macOS, ARM64]
+          - os: [macOS, ARM64]
             system: aarch64-darwin
     uses: cachix/devenv/.github/workflows/examples.yml@main
     with:

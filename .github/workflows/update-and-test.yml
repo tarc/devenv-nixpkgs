@@ -19,7 +19,7 @@ permissions:
 
 jobs:
   update:
-    runs-on: [self-hosted, Linux]
+    runs-on: [Linux]
     outputs:
       nixpkgs-rev: ${{ steps.nixpkgs.outputs.short }}
       changes_detected: ${{ steps.commit.outputs.changes_detected }}
