@@ -44,9 +44,9 @@ jobs:
             system: x86_64-linux
           - os: [macos-latest]
             system: aarch64-darwin
-    uses: cachix/devenv/.github/workflows/examples.yml@main
+    uses: tarc/devenv/.github/workflows/examples.yml@ci/parameterize-runs-on-generate-examples
     with:
-      repository: cachix/devenv
+      repository: tarc/devenv
       nixpkgs-input: ${{ inputs.nixpkgs-input }}
       system: ${{ matrix.system }}
       runs-on: ${{ toJSON(matrix.os) }}

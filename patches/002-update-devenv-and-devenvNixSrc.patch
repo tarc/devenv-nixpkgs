@@ -1,4 +1,4 @@
-From 3f39b11cd930ac37255a0cc64b9ca0ea87468847 Mon Sep 17 00:00:00 2001
+From 0d3c3588fc7bfb915e2e8d6d3950085b644f9556 Mon Sep 17 00:00:00 2001
 From: tarcisio <tarcisio.genaro@gmail.com>
 Date: Sun, 26 Jul 2026 17:51:48 +0000
 Subject: [PATCH] update devenv and devenvNixSrc
@@ -8,7 +8,7 @@ Subject: [PATCH] update devenv and devenvNixSrc
  1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/pkgs/by-name/de/devenv/package.nix b/pkgs/by-name/de/devenv/package.nix
-index 0ad340545046..e297c273752b 100644
+index 0ad340545046..aaa512a56c2c 100644
 --- a/pkgs/by-name/de/devenv/package.nix
 +++ b/pkgs/by-name/de/devenv/package.nix
 @@ -24,16 +24,16 @@
@@ -37,12 +37,12 @@ index 0ad340545046..e297c273752b 100644
      repo = "devenv";
 -    tag = "v2.1.2";
 -    hash = "sha256-EQnZCy7r4VMO6KDoytxHBa0mFbM1D9g1kaDfs/s0YZA=";
-+    rev = "126fa142775d8a6d89c97d69297f7095b6585e4e";
-+    hash = "sha256-iyjX3d/q7lqYP9wkJR4k9xI2J01BJGGyfVamP0v2LXU=";
++    rev = "6319d63344675f65c2c213be95084544866d8951";
++    hash = "sha256-vX6OVIUWiEiD5v1InHQk1OTjJsK2WgEqWmMPeIS5l78=";
    };
  
 -  cargoHash = "sha256-uEwxqnLqCFpyV2NbnfuUyVqKrMeVeQzoGQmElaVeGU8=";
-+  cargoHash = "sha256-t41wUNdAUfTv6JIlQKgyIA4qfvwpR0k/j7anm+/m/GM=";
++  cargoHash = "sha256-AHnVrQnTHOssEF8WKDNM3h5Z/frguB/acwETRroQE5o=";
  
    env = {
      RUSTFLAGS = "--cfg tracing_unstable";
