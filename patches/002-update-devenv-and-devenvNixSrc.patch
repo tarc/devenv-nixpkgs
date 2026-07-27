@@ -1,0 +1,51 @@
+From fc398fcb7ffd80d16d1ede0f5c8fa17504a22a7d Mon Sep 17 00:00:00 2001
+From: tarcisio <tarcisio.genaro@gmail.com>
+Date: Sun, 26 Jul 2026 17:51:48 +0000
+Subject: [PATCH] update devenv and devenvNixSrc
+
+---
+ pkgs/by-name/de/devenv/package.nix | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/pkgs/by-name/de/devenv/package.nix b/pkgs/by-name/de/devenv/package.nix
+index 0ad340545046..aaa512a56c2c 100644
+--- a/pkgs/by-name/de/devenv/package.nix
++++ b/pkgs/by-name/de/devenv/package.nix
+@@ -24,16 +24,16 @@
+ }:
+ 
+ let
+-  version = "2.1.2";
++  version = "2.1.3";
+   devenvNixVersion = "2.34";
+-  devenvNixRev = "42d4b7de21c15f28c568410f4383fa06a8458a40";
++  devenvNixRev = "782ac1b155679b065ec945ae50d0fa1d495883b7";
+ 
+   devenvNixSrc = fetchFromGitHub {
+     name = "devenv-nix-${devenvNixVersion}-source";
+     owner = "cachix";
+     repo = "nix";
+     rev = devenvNixRev;
+-    hash = "sha256-g2KEBuHpc3a56c+jPcg0+w6LSuIj6f+zzdztLCOyIhc=";
++    hash = "sha256-xem+4ncdQCTFJsQ4PrVuyVmi3j4w/Yqg298hBUzVejA=";
+   };
+ 
+   nix_components = (nixVersions.nixComponents_git.overrideSource devenvNixSrc).overrideScope (
+@@ -49,11 +49,11 @@ rustPlatform.buildRustPackage {
+   src = fetchFromGitHub {
+     owner = "cachix";
+     repo = "devenv";
+-    tag = "v2.1.2";
+-    hash = "sha256-EQnZCy7r4VMO6KDoytxHBa0mFbM1D9g1kaDfs/s0YZA=";
++    rev = "6319d63344675f65c2c213be95084544866d8951";
++    hash = "sha256-vX6OVIUWiEiD5v1InHQk1OTjJsK2WgEqWmMPeIS5l78=";
+   };
+ 
+-  cargoHash = "sha256-uEwxqnLqCFpyV2NbnfuUyVqKrMeVeQzoGQmElaVeGU8=";
++  cargoHash = "sha256-AHnVrQnTHOssEF8WKDNM3h5Z/frguB/acwETRroQE5o=";
+ 
+   env = {
+     RUSTFLAGS = "--cfg tracing_unstable";
+-- 
+2.55.0
+

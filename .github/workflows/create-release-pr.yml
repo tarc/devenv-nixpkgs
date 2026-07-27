@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   create-pr:
-    runs-on: [self-hosted, Linux]
+    runs-on: [ubuntu-latest]
     if: github.event.workflow_run.head_branch == 'main' || github.event_name == 'workflow_dispatch'
     steps:
       - uses: actions/checkout@v6

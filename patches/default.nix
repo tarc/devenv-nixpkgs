@@ -46,5 +46,6 @@ in
     # newest-bundle fallback for Python < 3.9, which poetry's MockEnv relies on.
     # https://github.com/NixOS/nixpkgs/issues/544083
     ./001-poetry-disable-embedded-wheel-tests.patch
+    ./002-update-devenv-and-devenvNixSrc.patch
   ];
 }
