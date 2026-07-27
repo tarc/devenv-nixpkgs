@@ -62,5 +62,5 @@ jobs:
       (inputs.run_tests != 'never' && needs.update.outputs.changes_detected == 'true')
     uses: ./.github/workflows/run-devenv-tests.yml
     with:
-      nixpkgs-input: "github:cachix/devenv-nixpkgs/main"
+      nixpkgs-input: "github:tarc/devenv-nixpkgs/main"
     secrets: inherit

@@ -1,4 +1,4 @@
-From a5490923e0108c745229f1274d540843eb7db67e Mon Sep 17 00:00:00 2001
+From 3f39b11cd930ac37255a0cc64b9ca0ea87468847 Mon Sep 17 00:00:00 2001
 From: tarcisio <tarcisio.genaro@gmail.com>
 Date: Sun, 26 Jul 2026 17:51:48 +0000
 Subject: [PATCH] update devenv and devenvNixSrc

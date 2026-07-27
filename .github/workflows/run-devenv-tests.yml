@@ -6,14 +6,14 @@ on:
       nixpkgs-input:
         description: "Nixpkgs input to use"
         required: false
-        default: "github:cachix/devenv-nixpkgs/main"
+        default: "github:tarc/devenv-nixpkgs/main"
         type: string
   workflow_call:
     inputs:
       nixpkgs-input:
         description: "Nixpkgs input to use"
         required: false
-        default: "github:cachix/devenv-nixpkgs/main"
+        default: "github:tarc/devenv-nixpkgs/main"
         type: string
 
 jobs:
@@ -28,7 +28,8 @@ jobs:
             system: aarch64-darwin
     uses: cachix/devenv/.github/workflows/test.yml@main
     with:
-      repository: cachix/devenv
+      repository: tarc/devenv
+      ref: ci/disable-kafka-test-for-aarch64-darwin
       nixpkgs-input: ${{ inputs.nixpkgs-input }}
       system: ${{ matrix.system }}
       runs-on: ${{ toJSON(matrix.os) }}

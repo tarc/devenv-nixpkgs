@@ -14,7 +14,7 @@ In your `devenv.yaml`:
 ```yaml
 inputs:
   nixpkgs:
-    url: github:cachix/devenv-nixpkgs/rolling
+    url: github:tarc/devenv-nixpkgs/rolling
     flake: false
 ```
 
